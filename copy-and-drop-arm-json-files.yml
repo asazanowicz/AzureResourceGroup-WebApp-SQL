@@ -24,7 +24,7 @@ steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'Azure Free Basic(68d85a76-5f53-4179-8124-39b19bd950ee)'
+    azureResourceManagerConnection: 'Web-App-RG-ServiceConnection'
     subscriptionId: '68d85a76-5f53-4179-8124-39b19bd950ee'
     action: 'Create Or Update Resource Group'
     resourceGroupName: 'web-app-rg1'
