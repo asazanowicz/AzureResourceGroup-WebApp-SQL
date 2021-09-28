@@ -10,7 +10,7 @@ steps:
     SourceFolder: 'AzureResourceGroup-WebApp-SQL'
     Contents: '*.json'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-- task: AzureFileCopy@4
+- task: AzureFileCopy@3
   inputs:
     SourcePath: '$(Build.ArtifactStagingDirectory)'
     azureSubscription: 'Azure Free Basic(68d85a76-5f53-4179-8124-39b19bd950ee)'
