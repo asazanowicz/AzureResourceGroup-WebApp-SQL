@@ -41,6 +41,6 @@ steps:
     templateLocation: 'URL of the file'
     csmFileLink: '$(TemplatesUrl)build_$(Build.BuildId)/WebSiteSQLDatabase.json$(TemplatesSASToken)'
     csmParametersFileLink: '$(TemplatesUrl)build_$(Build.BuildId)/WebSiteSQLDatabase.parameters.json$(TemplatesSASToken)'
-    overrideParameters: '-hostingPlanName "asa-plan" -skuName S0 -skuCapacity 10 -administratorLogin "asazanowicz" -administratorLoginPassword "Djps666x!" -databaseName "Products" -edition "Standard"'
+    overrideParameters: '-hostingPlanName "asa-plan" -skuName S0 -skuCapacity 10 -administratorLogin "asazanowicz" -administratorLoginPassword "Djps666x!" -databaseName "Products" -edition "Standard" -requestedServiceObjectiveName S0'
     deploymentMode: 'Incremental'
     deploymentName: 'deploy1'
