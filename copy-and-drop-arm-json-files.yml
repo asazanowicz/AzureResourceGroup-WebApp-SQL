@@ -17,7 +17,7 @@ steps:
     Destination: 'AzureBlob'
     storage: 'armstorageasa'
     ContainerName: 'templates'
-    BlobPrefix: 'build_$(Release.ReleaseId)'
+    BlobPrefix: 'build_$(Build.BuildId)'
     AdditionalArgumentsForBlobCopy: '/Pattern:"*.json" /Y'
     outputStorageUri: TemplatesUrl
     outputStorageContainerSasToken: TemplatesSASToken
@@ -29,8 +29,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      echo '$(AzureFileCopy.TemplatesUrl)'
-      echo '$(AzureFileCopy.TemplatesSASToken)'
+      echo '$(TemplatesUrl)'
+      echo '$(TemplatesSASToken)'
  
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
