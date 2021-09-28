@@ -1,0 +1,46 @@
+trigger:
+- master
+
+pool:
+  vmImage: windows-latest
+
+steps:
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'AzureResourceGroup-WebApp-SQL'
+    Contents: '*.json'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+- task: AzureFileCopy@3
+  inputs:
+    SourcePath: '$(Build.ArtifactStagingDirectory)'
+    azureSubscription: 'Azure Free Basic(68d85a76-5f53-4179-8124-39b19bd950ee)'
+    Destination: 'AzureBlob'
+    storage: 'armstorageasa'
+    ContainerName: 'templates'
+    BlobPrefix: 'build_$(Build.BuildId)'
+    AdditionalArgumentsForBlobCopy: '/Pattern:"*.json" /Y'
+    outputStorageUri: TemplatesUrl
+    outputStorageContainerSasToken: TemplatesSASToken
+  name: AzureFileCopy
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo 'TemplatesUrl: $(TemplatesUrl)'
+      echo 'TemplatesSASToken: $(TemplatesSASToken)'
+ 
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure Free Basic(68d85a76-5f53-4179-8124-39b19bd950ee)'
+    subscriptionId: '68d85a76-5f53-4179-8124-39b19bd950ee'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'arm-storage-rg'
+    location: 'Central US'
+    templateLocation: 'URL of the file'
+    csmFileLink: '$(TemplatesUrl)build_$(Build.BuildId)/WebSiteSQLDatabase.json$(TemplatesSASToken)'
+    csmParametersFileLink: '$(TemplatesUrl)build_$(Build.BuildId)/WebSiteSQLDatabase.parameters.json$(TemplatesSASToken)'
+    overrideParameters: '-hostingPlanName "asa-plan" -skuName S0 -skuCapacity 10 -administratorLogin "asazanowicz" -administratorLoginPassword "Djps666x!" -databaseName "Products"'
+    deploymentMode: 'Incremental'
+    deploymentName: 'deploy1'
