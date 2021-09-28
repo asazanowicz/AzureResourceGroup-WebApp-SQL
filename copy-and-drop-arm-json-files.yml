@@ -20,7 +20,7 @@ steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: '68d85a76-5f53-4179-8124-39b19bd950ee'
+    azureResourceManagerConnection: 'Azure Free Basic(68d85a76-5f53-4179-8124-39b19bd950ee)'
     subscriptionId: '68d85a76-5f53-4179-8124-39b19bd950ee'
     action: 'Create Or Update Resource Group'
     resourceGroupName: 'demogroup'
