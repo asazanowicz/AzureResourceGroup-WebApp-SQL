@@ -5,10 +5,14 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: CopyFiles@2
+  inputs:
+    Contents: '*.json'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: AzureFileCopy@4
   inputs:
-    SourcePath: 'templates'
-    azureSubscription: '68d85a76-5f53-4179-8124-39b19bd950ee'
+    SourcePath: '$(Build.ArtifactStagingDirectory)'
+    azureSubscription: 'Azure Free Basic(68d85a76-5f53-4179-8124-39b19bd950ee)'
     Destination: 'AzureBlob'
     storage: 'demostorage'
     ContainerName: 'projecttemplates'
