@@ -19,12 +19,12 @@ steps:
     ContainerName: 'templates'
   name: AzureFileCopy
 
-- task: CmdLine@2
+- task: Bash@3
   inputs:
+    targetType: 'inline'
     script: |
-      echo $(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.json$(AzureFileCopy.StorageContainerSasToken)'
-      
-      echo $(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
+      echo '$(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.json$(AzureFileCopy.StorageContainerSasToken)'
+      echo '$(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
  
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
