@@ -17,14 +17,20 @@ steps:
     Destination: 'AzureBlob'
     storage: 'armstorageasa'
     ContainerName: 'templates'
+    BlobPrefix: 'build_$(Release.ReleaseId)'
+    AdditionalArgumentsForBlobCopy: '/Pattern:"*.json" /Y'
+    outputStorageUri: TemplatesUrl
+    outputStorageContainerSasToken: TemplatesSASToken
+    CleanTargetBeforeCopy: true
+    sasTokenTimeOutInMinutes: '30'
   name: AzureFileCopy
 
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-      echo '$(AzureFileCopy.StorageContainerUri)'
-      echo '$(AzureFileCopy.StorageContainerSasToken)'
+      echo '$(AzureFileCopy.TemplatesUrl)'
+      echo '$(AzureFileCopy.TemplatesSASToken)'
  
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
@@ -35,7 +41,7 @@ steps:
     resourceGroupName: 'arm-storage-rg'
     location: 'Central US'
     templateLocation: 'URL of the file'
-    csmFileLink: '$(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.json$(AzureFileCopy.StorageContainerSasToken)'
-    csmParametersFileLink: '$(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
+    csmFileLink: '$(AzureFileCopy.TemplatesUrl)WebSiteSQLDatabase.json$(AzureFileCopy.TemplatesSASToken)'
+    csmParametersFileLink: '$(AzureFileCopy.TemplatesUrl)WebSiteSQLDatabase.parameters.json$(AzureFileCopy.TemplatesSASToken)'
     deploymentMode: 'Incremental'
     deploymentName: 'deploy1'
