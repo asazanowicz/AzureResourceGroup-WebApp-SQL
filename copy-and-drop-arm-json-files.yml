@@ -8,7 +8,7 @@ steps:
 - task: AzureFileCopy@4
   inputs:
     SourcePath: 'templates'
-    azureSubscription: 'Azure Free Basic(1)(68d85a76-5f53-4179-8124-39b19bd950ee)'
+    azureSubscription: '68d85a76-5f53-4179-8124-39b19bd950ee'
     Destination: 'AzureBlob'
     storage: 'demostorage'
     ContainerName: 'projecttemplates'
@@ -16,11 +16,11 @@ steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'copy-connection'
-    subscriptionId: '00000000-0000-0000-0000-000000000000'
+    azureResourceManagerConnection: '68d85a76-5f53-4179-8124-39b19bd950ee'
+    subscriptionId: '68d85a76-5f53-4179-8124-39b19bd950ee'
     action: 'Create Or Update Resource Group'
     resourceGroupName: 'demogroup'
-    location: 'West US'
+    location: 'Central US'
     templateLocation: 'URL of the file'
     csmFileLink: '$(AzureFileCopy.StorageContainerUri)templates/mainTemplate.json$(AzureFileCopy.StorageContainerSasToken)'
     csmParametersFileLink: '$(AzureFileCopy.StorageContainerUri)templates/mainTemplate.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
