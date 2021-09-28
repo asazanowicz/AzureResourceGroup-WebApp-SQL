@@ -5,32 +5,24 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: CopyFiles@2
+- task: AzureFileCopy@4
   inputs:
-    SourceFolder: 'AzureResourceGroup-WebApp-SQL'
-    Contents: '*.json'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-- task: DownloadBuildArtifacts@1
-  inputs:
-    buildType: 'current'
-    downloadType: 'single'
-    artifactName: 'drop'
-    downloadPath: '$(Build.ArtifactStagingDirectory)'
+    SourcePath: 'templates'
+    azureSubscription: 'Azure Free Basic(1)(68d85a76-5f53-4179-8124-39b19bd950ee)'
+    Destination: 'AzureBlob'
+    storage: 'demostorage'
+    ContainerName: 'projecttemplates'
+  name: AzureFileCopy
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'Web-App-RG-ServiceConnection'
-    subscriptionId: '68d85a76-5f53-4179-8124-39b19bd950ee'
+    azureResourceManagerConnection: 'copy-connection'
+    subscriptionId: '00000000-0000-0000-0000-000000000000'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'web-app-rg1'
-    location: 'Central US'
+    resourceGroupName: 'demogroup'
+    location: 'West US'
     templateLocation: 'URL of the file'
-    csmFileLink: '$(Build.ArtifactStagingDirectory)/drop/WebSiteSQLDatabase.json'
-    csmParametersFileLink: '$(Build.ArtifactStagingDirectory)/drop/WebSiteSQLDatabase.parameters.json'
+    csmFileLink: '$(AzureFileCopy.StorageContainerUri)templates/mainTemplate.json$(AzureFileCopy.StorageContainerSasToken)'
+    csmParametersFileLink: '$(AzureFileCopy.StorageContainerUri)templates/mainTemplate.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
     deploymentMode: 'Incremental'
     deploymentName: 'deploy1'
