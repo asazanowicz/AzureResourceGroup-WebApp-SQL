@@ -18,6 +18,14 @@ steps:
     storage: 'armstorageasa'
     ContainerName: 'templates'
   name: AzureFileCopy
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo $(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.json$(AzureFileCopy.StorageContainerSasToken)'
+      
+      echo $(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
+ 
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
