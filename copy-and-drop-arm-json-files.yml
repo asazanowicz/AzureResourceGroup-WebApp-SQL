@@ -15,8 +15,8 @@ steps:
     SourcePath: '$(Build.ArtifactStagingDirectory)'
     azureSubscription: 'Azure Free Basic(68d85a76-5f53-4179-8124-39b19bd950ee)'
     Destination: 'AzureBlob'
-    storage: 'demostorage'
-    ContainerName: 'projecttemplates'
+    storage: 'armstorageasa'
+    ContainerName: 'templates'
   name: AzureFileCopy
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
@@ -24,7 +24,7 @@ steps:
     azureResourceManagerConnection: 'Azure Free Basic(68d85a76-5f53-4179-8124-39b19bd950ee)'
     subscriptionId: '68d85a76-5f53-4179-8124-39b19bd950ee'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'demogroup'
+    resourceGroupName: 'arm-storage-rg'
     location: 'Central US'
     templateLocation: 'URL of the file'
     csmFileLink: '$(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.json$(AzureFileCopy.StorageContainerSasToken)'
