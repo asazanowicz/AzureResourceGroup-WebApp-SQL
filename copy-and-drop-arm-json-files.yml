@@ -2,11 +2,12 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 steps:
 - task: CopyFiles@2
   inputs:
+    SourceFolder: 'AzureResourceGroup-WebApp-SQL'
     Contents: '*.json'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: AzureFileCopy@4
@@ -26,7 +27,7 @@ steps:
     resourceGroupName: 'demogroup'
     location: 'Central US'
     templateLocation: 'URL of the file'
-    csmFileLink: '$(AzureFileCopy.StorageContainerUri)templates/mainTemplate.json$(AzureFileCopy.StorageContainerSasToken)'
-    csmParametersFileLink: '$(AzureFileCopy.StorageContainerUri)templates/mainTemplate.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
+    csmFileLink: '$(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.json$(AzureFileCopy.StorageContainerSasToken)'
+    csmParametersFileLink: '$(AzureFileCopy.StorageContainerUri)WebSiteSQLDatabase.parameters.json$(AzureFileCopy.StorageContainerSasToken)'
     deploymentMode: 'Incremental'
     deploymentName: 'deploy1'
