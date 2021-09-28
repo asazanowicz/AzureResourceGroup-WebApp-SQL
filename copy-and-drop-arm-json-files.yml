@@ -24,11 +24,11 @@ steps:
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'copy-connection'
-    subscriptionId: '00000000-0000-0000-0000-000000000000'
+    azureResourceManagerConnection: 'Azure Free Basic(68d85a76-5f53-4179-8124-39b19bd950ee)'
+    subscriptionId: '68d85a76-5f53-4179-8124-39b19bd950ee'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: 'demogroup'
-    location: 'West US'
+    resourceGroupName: 'web-app-rg1'
+    location: 'Central US'
     templateLocation: 'URL of the file'
     csmFileLink: '$(Build.ArtifactStagingDirectory)/WebSiteSQLDatabase.json'
     csmParametersFileLink: '$(Build.ArtifactStagingDirectory)/WebSiteSQLDatabase.parameters.json'
